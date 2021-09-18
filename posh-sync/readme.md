@@ -6,6 +6,7 @@
 - Write it as functionally as possible
 - Use strengths of pwsh (e.g. pipeline)
 - Find a stratified design (a la _Grokking Simplicity_)
+- Prefer own code over external modules/packages
 
 ## Functionality
 
