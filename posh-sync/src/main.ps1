@@ -4,6 +4,7 @@ function Push($filePath, $storePath, $namespace) {
 
     Get-Content $filePath -Raw |
         ConvertFrom-Json |
+        ConvertTo-Json -Compress -Depth 100 |
         Set-Content -Path $targetPath -Encoding utf8NoBOM
 }
 
