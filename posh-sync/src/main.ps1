@@ -14,7 +14,7 @@ $root = $PSCommandPath |
 $params = @{
     filePath  = $root |
         Join-Path -ChildPath 'external' |
-        Join-Path -ChildPath 'output.json'
+        Join-Path -ChildPath 'mock-config.json'
     storePath = $root | Join-Path -ChildPath 'store'
     namespace = 'develop.mock.config'
 }
