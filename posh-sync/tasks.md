@@ -2,21 +2,21 @@
 
 ## To Do
 
-##### PBI: Read state of item
-
-###### Task: Create mock state for mock item
-
-###### Task: Read mock state into cache
-
 ##### PBI: Push state via git
 
 ###### Task: Read mock state from cache
+
+###### Task: How to interact with git via pwsh?
 
 ###### Task: Write mock state from cache to git repo
 
 ## Doing
 
 ## Done
+
+##### PBI: Read state of item
+###### Task: Create mock state for mock item
+###### Task: Read mock state into cache
 
 ## Backlog
 
