@@ -1,3 +1,4 @@
 {
-  "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline"
+  "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+  "powershell.debugging.createTemporaryIntegratedConsole": true
 }
