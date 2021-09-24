@@ -1,0 +1,6 @@
+{
+    "type": "module",
+    "dependencies": {
+        "immutable": "^4.0.0-rc.15"
+    }
+}
