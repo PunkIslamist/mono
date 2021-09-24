@@ -1,3 +1,13 @@
+# Just calling normal functions introduces insane performance penalties
+# See: https://github.com/PowerShell/PowerShell/issues/8482
+class funcs {
+    static [int] sum($numbers) {
+        $s = 0
+        foreach ($n in $numbers) { $s += $n }
+        return $s
+    }
+}
+
 $numbers = $PSScriptRoot |
     Join-Path -ChildPath .\expenses.txt |
     foreach { Get-Content -Path $_ } |
@@ -8,11 +18,14 @@ $numbers |
     sort -Descending |
     foreach {
         $x = $_
-        $numbers |
-            foreach { @{x = $x; y = $_ } } |
-            where { $_.x + $_.y -ge 2020 } |
+        $numbers | foreach { , ($x, $_) } |
+            where { [funcs]::sum($_) -lt 2020 } |
+            foreach {
+                $xy = $_
+                $numbers | foreach { , ( $xy + $_) } |
+                    where { [funcs]::sum($_) -ge 2020 } |
+                    select -First 1
+                }
+            } | 
+            where { [funcs]::sum($_) -eq 2020 } |
             select -First 1
-        } | 
-        where { $_.x + $_.y -eq 2020 } |
-        select -First 1 |
-        foreach { $_.x * $_.y }
