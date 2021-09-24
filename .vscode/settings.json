@@ -1,4 +1,5 @@
 {
   "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
-  "powershell.debugging.createTemporaryIntegratedConsole": true
+  "powershell.debugging.createTemporaryIntegratedConsole": true,
+  "js/ts.implicitProjectConfig.checkJs": true
 }
