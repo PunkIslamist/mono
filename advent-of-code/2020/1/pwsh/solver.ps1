@@ -9,7 +9,9 @@ class funcs {
 }
 
 $numbers = $PSScriptRoot |
-    Join-Path -ChildPath .\expenses.txt |
+    Split-Path -Parent |
+    Join-Path -ChildPath input |
+    Join-Path -ChildPath expenses.txt |
     foreach { Get-Content -Path $_ } |
     foreach { [int]$_ } |
     sort

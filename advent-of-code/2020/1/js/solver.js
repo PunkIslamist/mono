@@ -5,7 +5,7 @@ import { EOL } from 'os';
 const add = (x, y) => x + y
 const sum = (numbers) => numbers.reduce(add)
 
-const data = readFileSync('expenses.txt', 'utf8')
+const data = readFileSync('../input/expenses.txt', 'utf8')
     .split(EOL)
     .map(x => Number.parseInt(x))
     .sort((a, b) => a - b);

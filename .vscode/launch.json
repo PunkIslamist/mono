@@ -7,10 +7,10 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "JS: Launch solver",
       "skipFiles": ["<node_internals>/**"],
-      "cwd": "${workspaceFolder}\\advent-of-code\\2020\\1",
-      "program": "${workspaceFolder}\\advent-of-code\\2020\\1\\solver.js"
+      "cwd": "${workspaceFolder}\\advent-of-code\\2020\\1\\js",
+      "program": "${workspaceFolder}\\advent-of-code\\2020\\1\\js\\solver.js"
     }
   ]
 }
