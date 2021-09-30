@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Basics\Extensions.fs" />
+    <Compile Include="Basics\IO.fs" />
+    <Compile Include="Basics\Text.fs" />
+    <Compile Include="Basics\Shell.fs" />
+    <Compile Include="Scoop.fs" />
+    <Compile Include="Syncer.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SimpleExec" Version="6.4.0" />
+  </ItemGroup>
+</Project>
