@@ -1,0 +1,1 @@
+https://golang.org/doc/tutorial/random-greeting
