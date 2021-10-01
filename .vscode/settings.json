@@ -1,8 +1,5 @@
 {
   "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
   "powershell.debugging.createTemporaryIntegratedConsole": true,
-  "js/ts.implicitProjectConfig.checkJs": true,
-  "gopls": {
-    "build.experimentalWorkspaceModule": true
-  }
+  "js/ts.implicitProjectConfig.checkJs": true
 }
