@@ -2,5 +2,9 @@
   "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
   "powershell.debugging.createTemporaryIntegratedConsole": true,
   "js/ts.implicitProjectConfig.checkJs": true,
-  "editor.acceptSuggestionOnCommitCharacter": false
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "haskell.formattingProvider": "brittany",
+  "[haskell]": {
+    "editor.tabSize": 4
+  }
 }
