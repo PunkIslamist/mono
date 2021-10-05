@@ -1,3 +1,6 @@
+{-
+resolver: lts-18.9
+-}
 import           Data.List
 
 main = do
