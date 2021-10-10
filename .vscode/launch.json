@@ -11,13 +11,6 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${file}",
       "cwd": "${fileDirname}"
-    },
-    {
-      "name": "Go: Launch file",
-      "type": "go",
-      "request": "launch",
-      "mode": "debug",
-      "program": "${file}"
     }
   ]
 }
