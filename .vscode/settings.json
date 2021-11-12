@@ -7,5 +7,6 @@
   "haskell.formattingProvider": "brittany",
   "[haskell]": {
     "editor.tabSize": 4
-  }
+  },
+  "omnisharp.autoStart": false
 }
