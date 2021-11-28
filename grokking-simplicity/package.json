@@ -1,0 +1,12 @@
+{
+  "name": "grokking-simplicity",
+  "version": "1.0.0",
+  "description": "Code related to the book Grokking Simplicity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
