@@ -11,7 +11,7 @@
         (recur ltail rtail (conj current [lhead rhead]))))))
 
 (defn increasing [values]
-  (let [first<second #(< (first %) (second %))]
+  (let [first<second (fn [[a b]] (< a b))]
     (count (filter first<second (pairs values)))))
 
 (def actual-values
