@@ -9,11 +9,10 @@
   (loop [left    values
          right   (next left)
          current []]
-    (let [[lhead & ltail] left
-          [rhead & rtail] right]
-      (if (not rhead) current
-          (recur ltail rtail (conj current [lhead rhead]))))))
-
+    (if (empty? right) current
+        (recur (next left)
+               (next right)
+               (conj current [(first left) (first right)])))))
 
 (defn increasing [values]
   (let [first<second (fn [[a b]] (< a b))]
