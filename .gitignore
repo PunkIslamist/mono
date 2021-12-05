@@ -5,6 +5,12 @@
 
 *.hi
 
+## Clojure
+
+.calva/
+.cpcache/
+.nrepl-port
+
 ## JavaScript
 
 **/node_modules/
