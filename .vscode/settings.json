@@ -11,5 +11,6 @@
   "[clojure]": {
     "editor.tabSize": 2
   },
-  "omnisharp.autoStart": false
+  "omnisharp.autoStart": false,
+  "calva.highlight.enableBracketColors": false
 }
