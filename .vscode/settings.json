@@ -12,5 +12,6 @@
     "editor.tabSize": 2
   },
   "omnisharp.autoStart": false,
-  "calva.highlight.enableBracketColors": false
+  "calva.highlight.enableBracketColors": false,
+  "calva.paredit.defaultKeyMap": "none"
 }
