@@ -1,13 +1,12 @@
-(require '[clojure.edn :as edn])
-(require '[clojure.string :as string])
-
-(defn to-number [s] (edn/read-string s))
+(ns advent-of-code.2021.03.clojure.03
+  (:require [clojure.string :as string]
+            [punkislamist.core :as pi]))
 
 
 (defn to-binary [string]
   (->> string
        (map str)
-       (map to-number)))
+       (map pi/to-number)))
 
 
 (defn sum-columns [rows]
@@ -79,8 +78,7 @@
 
 (defn scrubber-rating [colls] (rating (partial lowest-frequency <) colls))
 
-
-(def input (string/split-lines (slurp "../input.txt")))
+(def input (string/split-lines (slurp "./apps/advent-of-code/2021/03/input.txt")))
 
 
 ;; solution part 1 = 2640986

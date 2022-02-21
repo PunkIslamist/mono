@@ -1,5 +1,6 @@
-(require '[clojure.edn :as edn])
-(require '[clojure.string :as string])
+(ns advent-of-code.2021.02.clojure.02
+  (:require [clojure.string :as string]
+            [punkislamist.core :as pi]))
 
 
 (def direction-map {"forward" :forward
@@ -12,12 +13,9 @@
                      :aim        0})
 
 
-(defn to-number [s] (edn/read-string s))
-
-
 (defn direction+amount [line]
   (let [[direction amount] (string/split line #" ")]
-    [(direction-map direction) (to-number amount)]))
+    [(direction-map direction) (pi/to-number amount)]))
 
 
 (defn move-part-1 [current-position [direction amount]]
@@ -37,7 +35,7 @@
                    (update :vertical #(+ % (* (:aim pos) amount)))))))
 
 (def movements
-  (let [lines (string/split-lines (slurp "../input.txt"))]
+  (let [lines (string/split-lines (slurp "./apps/advent-of-code/2021/02/input.txt"))]
     (map direction+amount lines)))
 
 

@@ -1,12 +1,12 @@
-(require '[clojure.edn :as edn])
-(require '[clojure.string :as string])
+(ns advent-of-code.2021.01.clojure.01
+  (:require [clojure [string :as string] [edn :as edn]]))
 
 
 (def example-values [199 200 208 210 200 207 240 269 260 263])
 
 
 (def actual-values
-  (map edn/read-string (string/split-lines (slurp "../input.txt"))))
+  (map edn/read-string (string/split-lines (slurp "./apps/advent-of-code/2021/01/input.txt"))))
 
 
 (defn windows [window-size values]

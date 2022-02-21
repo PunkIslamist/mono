@@ -13,5 +13,7 @@
   },
   "omnisharp.autoStart": false,
   "calva.highlight.enableBracketColors": false,
-  "calva.paredit.defaultKeyMap": "none"
+  "calva.paredit.defaultKeyMap": "none",
+  "calva.fmt.configPath": ".config\\cljfmt.edn",
+  "calva.showCalvaSaysOnStart": false
 }
