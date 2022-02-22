@@ -15,3 +15,15 @@
   (if (every? #(.contains reference %) coll)
     coll
     nil))
+
+
+(defn take-upto
+  "Similar to take-while, but returns items from coll
+   that do not fulfill the pred, plus the first item
+   that does fulfill it."
+  ([pred coll]
+   (lazy-seq
+    (when-let [s (seq coll)]
+      (if (pred (first s))
+        (cons (first s) [])
+        (cons (first s) (take-upto pred (rest s))))))))
