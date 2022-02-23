@@ -40,9 +40,10 @@
   (filter (fn [n] (not (.contains reference n))) coll))
 
 
-(defn pick-side [moves rows&cols]
+(defn pick-side 
   "Pretty much binary search plus removal (marking)
    of items when we have to go right."
+  [moves rows&cols]
   (let [mid   (quot (count moves) 2)
         left  (subvec moves 0 mid)
         right (subvec moves mid)]
