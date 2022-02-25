@@ -1,6 +1,5 @@
 (ns advent-of-code.2021.05.clojure.05
-  (:require [clojure.math.numeric-tower :as math]
-            [clojure.string :as string]
+  (:require [clojure.string :as string]
             [punkislamist.core :as pi]))
 
 

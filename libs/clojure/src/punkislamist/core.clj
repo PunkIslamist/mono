@@ -27,3 +27,10 @@
       (if (pred (first s))
         (cons (first s) [])
         (cons (first s) (take-upto pred (rest s))))))))
+
+
+(defn sum-range
+  "Sum of all numbers between start and end."
+  [start end]
+  (let [n (+ 1 (- end start))]
+    (quot (* n (+ start end)) 2)))
