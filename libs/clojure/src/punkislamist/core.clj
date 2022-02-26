@@ -1,10 +1,7 @@
-(ns punkislamist.core
-  (:require [clojure.edn :as edn]))
-
-(defn pwd [] (System/getProperty "user.dir"))
+(ns punkislamist.core)
 
 
-(defn to-number [s] (edn/read-string s))
+(defn to-number [s] (Long/parseLong s))
 
 
 (defn pivot [colls]
@@ -34,3 +31,14 @@
   [start end]
   (let [n (+ 1 (- end start))]
     (quot (* n (+ start end)) 2)))
+
+
+(defn update-v
+  "Updates all values in the associative structure by applying f to it.
+   Example:
+   (update-v inc {:a 1, :b 2}) => {:a 2, :b 3})"
+  [f m]
+  (reduce-kv
+   (fn [m' k v] (assoc m' k (f v)))
+   m
+   m))
