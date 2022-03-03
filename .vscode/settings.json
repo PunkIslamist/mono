@@ -1,21 +1,21 @@
 {
-  "editor.detectIndentation": false,
-  "editor.acceptSuggestionOnCommitCharacter": false,
-  "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
-  "powershell.debugging.createTemporaryIntegratedConsole": true,
-  "js/ts.implicitProjectConfig.checkJs": true,
-  "haskell.formattingProvider": "brittany",
-  "[haskell]": {
-    "editor.tabSize": 4
-  },
-  "[clojure]": {
-    "editor.tabSize": 2
-  },
-  "omnisharp.autoStart": false,
-  "calva.highlight.enableBracketColors": false,
-  "calva.paredit.defaultKeyMap": "none",
-  "calva.fmt.configPath": ".config\\cljfmt.edn",
-"calva.showCalvaSaysOnStart": false,
-"editor.lineNumbers": "relative",
-"zenMode.hideLineNumbers": false
+    "editor.detectIndentation": false,
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+    "powershell.debugging.createTemporaryIntegratedConsole": true,
+    "js/ts.implicitProjectConfig.checkJs": true,
+    "haskell.formattingProvider": "brittany",
+    "[haskell]": {
+        "editor.tabSize": 4
+    },
+    "[clojure]": {
+        "editor.tabSize": 2
+    },
+    "omnisharp.autoStart": false,
+    "calva.highlight.enableBracketColors": false,
+    "calva.paredit.defaultKeyMap": "none",
+    "calva.fmt.configPath": "${workspaceFolder}/.config/cljfmt.edn",
+    "calva.showCalvaSaysOnStart": false,
+    "editor.lineNumbers": "relative",
+    "zenMode.hideLineNumbers": false
 }
