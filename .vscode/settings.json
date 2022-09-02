@@ -19,5 +19,6 @@
     "editor.lineNumbers": "relative",
     "zenMode.hideLineNumbers": false,
     "workbench.preferredLightColorTheme": "Verdandi",
-    "workbench.preferredDarkColorTheme": "minimalGreen"
+    "workbench.preferredDarkColorTheme": "minimalGreen",
+    "editor.bracketPairColorization.enabled": false
 }
