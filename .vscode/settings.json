@@ -17,5 +17,7 @@
     "calva.fmt.configPath": "${workspaceFolder}/.config/cljfmt.edn",
     "calva.showCalvaSaysOnStart": false,
     "editor.lineNumbers": "relative",
-    "zenMode.hideLineNumbers": false
+    "zenMode.hideLineNumbers": false,
+    "workbench.preferredLightColorTheme": "Verdandi",
+    "workbench.preferredDarkColorTheme": "minimalGreen"
 }
