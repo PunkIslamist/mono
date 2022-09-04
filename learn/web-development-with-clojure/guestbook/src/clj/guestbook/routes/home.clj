@@ -30,6 +30,10 @@
   (layout/render request "about.html"))
 
 
+(defn stuff-page [request]
+  (layout/render request "stuff.html"))
+
+
 (defn save-message! [{:keys [params]}]
   (if-let [errors (validate-message params)]
     (-> (response/found "/")
@@ -45,4 +49,5 @@
                  middleware/wrap-formats]}
    ["/" {:get home-page}]
    ["/about" {:get about-page}]
+   ["/stuff" {:get stuff-page}]
    ["/message" {:post save-message!}]])
