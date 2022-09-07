@@ -4,6 +4,10 @@ One repo for all the things
 
 To get all submodules, run `git submodule update --init --recursive`.
 
+## npm
+
+To install npm in a defined version, run `nvm install` in the root folder. It uses `.nvmrc` to figure out which version to install.
+
 ## Haskell
 
 To build single file programs, run `runhs compile <file>`. Ensure you have `runhs` installed via `stack install runhs`. Ensure you have stack installed via `scoop install stack`.
