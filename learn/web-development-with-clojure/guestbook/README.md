@@ -20,7 +20,9 @@ To start a web server for the application, run:
     
 ### Development
 
-Connect the REPL and run `(start)`.
+Connect the REPL and run `(start)`. When running for the first time, also run `(migrate)`.
+
+Also run `lein cljsbuild auto` to compile cljs files to JS, and keep recompiling on changes.
 
 ## License
 
