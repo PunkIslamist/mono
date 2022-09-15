@@ -33,18 +33,19 @@
                  [selmer "1.12.31"]
                  [org.clojure/clojurescript "1.10.764" :scope "provided"]
                  [reagent "1.0.0"]
-                 [cljs-ajax "0.8.1"]]
+                 [cljs-ajax "0.8.1"]
+                 [re-frame "1.1.2"]]
 
   :min-lein-version "2.0.0"
-  
+
   :source-paths ["src/clj" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s/"
   :main ^:skip-aot guestbook.core
 
-  :plugins [[lein-cljsbuild "1.1.8"]] 
-  
+  :plugins [[lein-cljsbuild "1.1.8"]]
+
   :cljsbuild
   {:builds
    {:app {:source-paths ["src/cljs" "src/cljc"]
@@ -55,7 +56,7 @@
                      :optimizations :none
                      :source-map true
                      :pretty-print true}}}}
-                     
+
   :clearn-targets
   ^{:protect false}
   [:target-path
@@ -66,27 +67,27 @@
   {:uberjar {:omit-source true
              :aot :all
              :uberjar-name "guestbook.jar"
-             :source-paths ["env/prod/clj" ]
+             :source-paths ["env/prod/clj"]
              :resource-paths ["env/prod/resources"]}
 
    :dev           [:project/dev :profiles/dev]
    :test          [:project/dev :project/test :profiles/test]
 
-   :project/dev  {:jvm-opts ["-Dconf=dev-config.edn" ]
+   :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"]
                   :dependencies [[pjstadig/humane-test-output "0.10.0"]
                                  [prone "2020-01-17"]
                                  [ring/ring-devel "1.8.2"]
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.1"]
-                                 [jonase/eastwood "0.3.5"]] 
-                  
-                  :source-paths ["env/dev/clj" ]
+                                 [jonase/eastwood "0.3.5"]]
+
+                  :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user
                                  :timeout 120000}
                   :injections [(require 'pjstadig.humane-test-output)
                                (pjstadig.humane-test-output/activate!)]}
-   :project/test {:jvm-opts ["-Dconf=test-config.edn" ]
-                  :resource-paths ["env/test/resources"] }
+   :project/test {:jvm-opts ["-Dconf=test-config.edn"]
+                  :resource-paths ["env/test/resources"]}
    :profiles/dev {}
    :profiles/test {}})
