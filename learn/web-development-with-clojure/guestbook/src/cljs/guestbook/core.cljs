@@ -23,26 +23,26 @@
 
 
 (defn get-messages []
-  (GET "/messages" {:headers {"Accept" "application/transit+json"}
-                    :handler #(rf/dispatch [:messages/set (:messages %)])}))
+  (GET "/api/messages" {:headers {"Accept" "application/transit+json"}
+                        :handler #(rf/dispatch [:messages/set (:messages %)])}))
 
 
 (defn send-message! [fields errors]
   (if-let [validation-errors (validate-message @fields)]
     (reset! errors validation-errors)
-    (POST "/message" {:format        :json
-                      :headers       {"Accept"       "application/transit+json"
-                                      "x-csrf-token" (.-value (.getElementById js/document "token"))}
-                      :params        @fields
-                      :handler       (fn [_]
-                                       (rf/dispatch [:message/add (assoc @fields :timestamp (js/Date.))])
-                                       (reset! fields nil)
-                                       (reset! errors nil))
-                      :error-handler (fn [e]
-                                       (.log js/console (str e))
-                                       (reset! errors (-> e
-                                                          :response
-                                                          :errors)))})))
+    (POST "/api/message" {:format        :json
+                          :headers       {"Accept"       "application/transit+json"
+                                          "x-csrf-token" (.-value (.getElementById js/document "token"))}
+                          :params        @fields
+                          :handler       (fn [_]
+                                           (rf/dispatch [:message/add (assoc @fields :timestamp (js/Date.))])
+                                           (reset! fields nil)
+                                           (reset! errors nil))
+                          :error-handler (fn [e]
+                                           (.log js/console (str e))
+                                           (reset! errors (-> e
+                                                              :response
+                                                              :errors)))})))
 
 
 (defn errors-component [errors id]
