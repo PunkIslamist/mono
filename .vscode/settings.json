@@ -18,5 +18,8 @@
   "calva.showCalvaSaysOnStart": false,
   "editor.lineNumbers": "relative",
   "zenMode.hideLineNumbers": false,
-  "editor.bracketPairColorization.enabled": false
+  "editor.bracketPairColorization.enabled": false,
+  "FSharp.inlayHints.typeAnnotations": true,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "FSharp.enableAdaptiveLspServer": true
 }
