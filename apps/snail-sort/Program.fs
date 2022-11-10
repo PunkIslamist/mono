@@ -1,4 +1,4 @@
-﻿let rotate xs = xs |> List.transpose |> List.rev
+﻿let rotate = List.transpose >> List.rev
 
 let snailSort =
     let rec loop snail matrix =
