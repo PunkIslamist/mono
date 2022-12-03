@@ -22,6 +22,6 @@
   "FSharp.inlayHints.typeAnnotations": true,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "FSharp.enableAdaptiveLspServer": true,
-    "workbench.preferredLightColorTheme": "Verdandi",
+    "workbench.preferredLightColorTheme": "Parchment Light",
     "workbench.preferredDarkColorTheme": "minimalGreen"
 }
