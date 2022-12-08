@@ -21,5 +21,7 @@
   "editor.bracketPairColorization.enabled": false,
   "FSharp.inlayHints.typeAnnotations": true,
   "editor.inlayHints.enabled": "offUnlessPressed",
-  "FSharp.enableAdaptiveLspServer": true
+  "FSharp.enableAdaptiveLspServer": true,
+    "workbench.preferredLightColorTheme": "Parchment Light",
+    "workbench.preferredDarkColorTheme": "minimalGreen"
 }
