@@ -29,4 +29,12 @@ let rawInput = System.IO.File.ReadLines("./apps/advent-of-code/2022/01/input.txt
 let inventories = rawInput |> splitAround "" |> Seq.map (Seq.map stringToInt)
 
 
-let fattestElf = inventories |> Seq.map Seq.sum |> Seq.max
+let elfsOrderedByCalories = inventories |> Seq.map Seq.sum |> Seq.sortDescending
+
+
+// 66306
+let solution1 = Seq.head elfsOrderedByCalories
+
+
+// 195292
+let solution2 = Seq.take 3 elfsOrderedByCalories |> Seq.sum
