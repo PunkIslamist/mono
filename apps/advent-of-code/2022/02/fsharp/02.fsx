@@ -25,14 +25,7 @@ let points x =
     | Result Win -> 6
     
 
-let toShape x =
-    match x with
-    | 'A' | 'X' -> Rock
-    | 'B' | 'Y' -> Paper
-    | 'C' | 'Z' -> Scissors
-    
-
-let toResult (them, us) =
+let result (them, us) =
     match (them, us) with
     | (Rock, Paper) -> Win
     | (Rock, Scissors) -> Loss
@@ -44,17 +37,21 @@ let toResult (them, us) =
     
 
 let score (them, us) =
-    let resultScore = toResult (them, us) |> Result |> points
+    let resultScore = result (them, us) |> Result |> points
     let shapeScore = us |> Shape |> points
 
     resultScore + shapeScore
     
 
-/// Take a string like "A Y" and convert it to a tuple of Shapes
-let lineToShapes : char seq -> Shape * Shape =
-    List.ofSeq >>
-    (fun [them; _; us] -> (them, us)) >>
-    (fun (them, us) -> (toShape them, toShape us))
+// charsToShapes must map char tuple like ("A", "X") to Shapes tuple
+// (it's more generic but that is how it's used)
+let solver charsToShapes =
+    let lineToShapes =
+        List.ofSeq
+        >> (fun [x; _; y] -> (x, y))
+        >> charsToShapes
+
+    List.map lineToShapes >> List.map score >> List.sum
 
 
 let example = ["A Y"
@@ -65,9 +62,48 @@ let example = ["A Y"
 let rawInput = System.IO.File.ReadLines("./apps/advent-of-code/2022/02/input.txt") |> List.ofSeq
 
 
-/// 10310
-let solution1 =
+// Part 1
+let toShape x =
+    match x with
+    | 'A' | 'X' -> Rock
+    | 'B' | 'Y' -> Paper
+    | 'C' | 'Z' -> Scissors
+    
+
+let charsToShapes (them, us) = (toShape them, toShape us)
+
+
+let solution1 = // 10310
     rawInput
-    |> List.map lineToShapes 
-    |> List.map score
-    |> List.sum
+    |> solver charsToShapes 
+
+
+// Part 2
+let toResult x =
+    match x with
+    | 'X' -> Loss
+    | 'Y' -> Draw
+    | 'Z' -> Win
+    
+
+let requiredMove (them, goal) =
+    match (them, goal) with
+    | (Rock, Win) -> Paper
+    | (Rock, Loss) -> Scissors
+    | (Scissors, Win) -> Rock
+    | (Scissors, Loss) -> Paper
+    | (Paper, Win) -> Scissors
+    | (Paper, Loss) -> Rock
+    | _ -> them
+    
+
+let charsToShapes_pt2 (them, goal)=
+    let theirMove = toShape them
+    let ourMove = (theirMove, (toResult goal)) |> requiredMove  
+
+    (theirMove, ourMove)
+
+
+let solution2 = // 14859
+    rawInput
+    |> solver charsToShapes_pt2 
