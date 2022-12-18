@@ -1,29 +1,30 @@
 {
-    "calva.highlight.enableBracketColors": false,
-    "calva.paredit.defaultKeyMap": "none",
-    "calva.fmt.configPath": "${workspaceFolder}/.config/cljfmt.edn",
-    "calva.showCalvaSaysOnStart": false,
-    "editor.acceptSuggestionOnCommitCharacter": false,
-    "editor.bracketPairColorization.enabled": false,
-    "editor.detectIndentation": false,
-    "editor.inlayHints.enabled": "offUnlessPressed",
-    "editor.lineNumbers": "relative",
-    "FSharp.enableAdaptiveLspServer": true,
-    "FSharp.inlayHints.typeAnnotations": true,
-    "FSharp.showExplorerOnStartup": false,
-    "FSharp.smartIndent": true,
-    "haskell.formattingProvider": "brittany",
-    "js/ts.implicitProjectConfig.checkJs": true,
-    "omnisharp.autoStart": false,
-    "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
-    "powershell.debugging.createTemporaryIntegratedConsole": true,
-    "workbench.preferredLightColorTheme": "Parchment Light",
-    "workbench.preferredDarkColorTheme": "minimalGreen",
-    "zenMode.hideLineNumbers": false,
-    "[clojure]": {
-        "editor.tabSize": 2
-    },
-    "[haskell]": {
-        "editor.tabSize": 4
-    },
+  "calva.enableJSCompletions": false,
+  "calva.highlight.enableBracketColors": false,
+  "calva.paredit.defaultKeyMap": "none",
+  "calva.fmt.configPath": "${workspaceFolder}/.config/cljfmt.edn",
+  "calva.showCalvaSaysOnStart": false,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.detectIndentation": false,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.lineNumbers": "relative",
+  "FSharp.enableAdaptiveLspServer": true,
+  "FSharp.inlayHints.typeAnnotations": true,
+  "FSharp.showExplorerOnStartup": false,
+  "FSharp.smartIndent": true,
+  "haskell.formattingProvider": "brittany",
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "omnisharp.autoStart": false,
+  "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+  "powershell.debugging.createTemporaryIntegratedConsole": true,
+  "workbench.preferredLightColorTheme": "Parchment Light",
+  "workbench.preferredDarkColorTheme": "minimalGreen",
+  "zenMode.hideLineNumbers": false,
+  "[clojure]": {
+    "editor.tabSize": 2
+  },
+  "[haskell]": {
+    "editor.tabSize": 4
+  }
 }
