@@ -4,9 +4,23 @@ One repo for all the things
 
 To get all submodules, run `git submodule update --init --recursive`.
 
+
+## Managing tool versions with asdf
+
+[asdf](https://github.com/asdf-vm/asdf) is a version manager (pretty much) all runimtes. It allows managing runtime versions per folder. The version(s) to use are defined in `.tool-versions` files.
+
+> Important! Always read the docs of a asdf plugin before installing it. They usually have dependencies that must be met first.
+
+
 ## Haskell
 
 To build single file programs, run `runhs compile <file>`. Ensure you have `runhs` installed via `stack install runhs`. Ensure you have stack installed via `scoop install stack`.
+
+
+## Elixir/Erlang
+
+Install via [asdf](#managing-tool-versions-with-asdf). Make sure to read the docs as Erlang needs to be installed first.
+
 
 ## Clojure
 
