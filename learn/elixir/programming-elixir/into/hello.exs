@@ -8,7 +8,7 @@ sum = fn x, y, z -> x + y + z end
 
 pair_tuple_to_list = fn {a, b} -> [a, b] end
 
-# Exercise Functions-2
+# Exercise Functions-2 & -3
 # Using module and named functions as I cannot send to repl from file :(
 
 defmodule Functions_2 do
@@ -17,4 +17,20 @@ defmodule Functions_2 do
   def fizz_buzz(_, 0, _), do: "Buzz"
   def fizz_buzz(_, _, n), do: n
   def fizz_buzz(x), do: fizz_buzz(rem(x, 3), rem(x, 5), x)
+end
+
+# Exercise Functions-4
+prefix = fn x -> fn y -> "#{x} #{y}" end end
+
+# Exercise Functions-5
+Enum.map([1, 2, 3, 4], &(&1 + 2))
+Enum.map([1, 2, 3, 4], &inspect/1)
+
+# Exercise Functions-6
+defmodule Functions_6 do
+  def sum(1), do: 1
+  def sum(n), do: n + sum(n - 1)
+
+  def gcd(x, 0), do: x
+  def gcd(x, y), do: gcd(y, rem(x, y))
 end
