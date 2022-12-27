@@ -16,15 +16,47 @@
 1 in [1, 2, 3]
 # true
 
+
 ## Tuples
 
 {1, :"one two three", 2, 3}
+
 
 ## Regex
 ~r{regexp}
 ~r{regexp}options
 
 # For the rest, just check `h Regex` tbh :3
+
+
+## Keyword lists
+
+[ a: 1, b: "one" ] => [ {:a 1}, {:b "one"} ]
+
+[ a: "first key occurence", a: "second key occurence" ]
+
+# Note: brackets can be left off in many contexts if it is the last time
+f a, b, c: 1, d: 3 (= f a, b, [{:c 1}, {:d 3}])
+
+{1, a: 2, b:3 } (= {1, [{:a 2, :b 3}]})
+
+
+## Maps
+
+%{ "A key" => "Some Value", :anotherKey => 123, {:a, :b} => :c }
+
+# Special case: keys are atoms
+%{ a: 1, b: 2, c: 3 }
+
+%{ String.downcase("ABCD") => "key from expression"}
+
+aMap = {a: 1, b: 2, "c" => 3}
+
+aMap[a] => 1
+aMap["c"] => 3
+
+aMap.a => 1
+aMap."c" => Error (only works for atom keys)
 
 ### Matching ###
 # General note: the value of a successful match expression
@@ -40,6 +72,7 @@ a = 1
 
 2 = a
 # MatchError
+
 
 ## Lists
 
@@ -75,6 +108,7 @@ a = 2
 [^a, a] = [1, 2]
 # MatchError
 
+
 ## Tuples
 
 {:ok, a} = {:ok, "some nice values"}
@@ -82,3 +116,8 @@ a = 2
 
 {a, b, {:name, name}} = {1, {:a, :b}, {:name, "Amy}}
 # a = 1, b = {:a, :b}, name = "Amy"
+
+
+## Maps
+
+%{:a} = %{a: 1, b: 2}
