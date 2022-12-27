@@ -121,3 +121,16 @@ a = 2
 ## Maps
 
 %{:a} = %{a: 1, b: 2}
+
+
+### Scoping ###
+
+## with blocks
+x = with  a       = 1
+          b       = a + 2
+          [c | d] = [a, b]
+          # When using <- instead of =, returns the unmatchable value
+          [e]     <- []
+    do
+      [a, b, c, d]
+    end
