@@ -34,3 +34,34 @@ defmodule Functions_6 do
   def gcd(x, 0), do: x
   def gcd(x, y), do: gcd(y, rem(x, y))
 end
+
+# Exercise ModulesAndFunctions-6
+defmodule Chop do
+  def guess(goal, from..to), do: guess(goal, div(from + to, 2), from..to)
+
+  def guess(goal, guess, _) when goal == guess, do: guess
+
+  def guess(goal, guess, from..to) when goal > guess do
+    mid = div(from + to, 2)
+    guess = div(mid + to, 2)
+    IO.puts("Is it #{guess}?")
+    guess(goal, guess, mid..to)
+  end
+
+  def guess(goal, guess, from..to) when goal < guess do
+    mid = div(from + to, 2)
+    guess = div(from + mid, 2)
+    IO.puts("Is it #{guess}?")
+    guess(goal, guess, from..mid)
+  end
+
+  # def guess(n, from..to) when div(from + to, 2) > n do
+  #  IO.puts("Is it #{div(from + to, 2)}")
+  #  guess(n, from..div(from + to, 2))
+  # end
+
+  # def guess(n, from..to) when div(from + to, 2) < n do
+  #  IO.puts("Is it #{div(from + to, 2)}")
+  #  guess(n, div(from + to, 2)..to)
+  # end
+end
