@@ -1,3 +1,6 @@
+#load "../../../../../libs/FSharp/Ring.fsx"
+open Ring
+
 type Shape =
     | Rock
     | Paper
@@ -25,20 +28,17 @@ let points x =
     | Result Win -> 6
     
 
-let result (them, us) =
-    match (them, us) with
-    | (Rock, Paper) -> Win
-    | (Rock, Scissors) -> Loss
-    | (Paper, Scissors) -> Win
-    | (Paper, Rock) -> Loss
-    | (Scissors, Rock) -> Win
-    | (Scissors, Paper) -> Loss
-    | _ -> Draw
+let result (theirs, ours) =
+    let shapes = Ring [Rock; Paper; Scissors]
+    match ours with
+    | _ when ours = theirs -> Draw
+    | _ when ours = Ring.next shapes theirs -> Win
+    | _ -> Loss
     
 
-let score (them, us) =
-    let resultScore = result (them, us) |> Result |> points
-    let shapeScore = us |> Shape |> points
+let score (theirs, ours) =
+    let resultScore = result (theirs, ours) |> Result |> points
+    let shapeScore = ours |> Shape |> points
 
     resultScore + shapeScore
     
@@ -70,7 +70,7 @@ let toShape x =
     | 'C' | 'Z' -> Scissors
     
 
-let charsToShapes (them, us) = (toShape them, toShape us)
+let charsToShapes (theirs, ours) = (toShape theirs, toShape ours)
 
 
 let solution1 = // 10310
@@ -86,20 +86,17 @@ let toResult x =
     | 'Z' -> Win
     
 
-let requiredMove (them, goal) =
-    match (them, goal) with
-    | (Rock, Win) -> Paper
-    | (Rock, Loss) -> Scissors
-    | (Scissors, Win) -> Rock
-    | (Scissors, Loss) -> Paper
-    | (Paper, Win) -> Scissors
-    | (Paper, Loss) -> Rock
-    | _ -> them
+let requiredMove (theirs, goal) =
+    let shapes = Ring [Rock; Paper; Scissors]
+    match goal with
+    | Win -> Ring.next shapes theirs
+    | Loss -> Ring.previous shapes theirs
+    | Draw -> theirs
     
 
-let charsToShapes_pt2 (them, goal)=
-    let theirMove = toShape them
-    let ourMove = (theirMove, (toResult goal)) |> requiredMove  
+let charsToShapes_pt2 (theirs, goal) =
+    let theirMove = toShape theirs
+    let ourMove = requiredMove (theirMove, (toResult goal))
 
     (theirMove, ourMove)
 
