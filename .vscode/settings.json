@@ -26,5 +26,6 @@
   },
   "[haskell]": {
     "editor.tabSize": 4
-  }
+},
+"FSharp.pipelineHints.enabled": false
 }
