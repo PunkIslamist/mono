@@ -1,0 +1,50 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":null,"items":[{"name":"csharp","languageName":"C#","aliases":["c#","cs"]},{"name":"fsharp","languageName":"F#","aliases":["f#","fs"]},{"name":"pwsh","languageName":"PowerShell","aliases":["powershell"]},{"name":"javascript","languageName":"JavaScript","aliases":["js"]},{"name":"html","languageName":"HTML"},{"name":"sql","languageName":"SQL"},{"name":"kql","languageName":"KQL"},{"name":"mermaid","languageName":"Mermaid"},{"name":"httpRequest","languageName":"http"},{"name":"value"}]}}
+
+#!csharp
+
+var example = new List<((int, int), (int, int))> {
+    ((2,4), (6,8)),
+    ((2,3), (4,5)),
+    ((5,7), (7,9)),
+    ((2,8), (3,7)),
+    ((6,6), (4,6)),
+    ((2,6), (4,8))
+};
+
+var rawInput = System.IO.File.ReadLines("../input.txt").ToList();
+
+#!csharp
+
+var toSet = ((int, int) x) =>
+    Enumerable.Range(x.Item1, x.Item2 - x.Item1 + 1).ToHashSet();
+
+#!csharp
+
+var lineToRangePair = (string line) => {
+    var elementToRange = (string element) => {
+        var split = element.Split('-');
+        return (int.Parse(split[0]), int.Parse(split[1]));
+    };
+
+    var split = line.Split(',');
+    return (elementToRange(split[0]), elementToRange(split[1]));
+};
+
+#!csharp
+
+example
+.Select(x => (toSet(x.Item1), toSet(x.Item2)))
+.Select(x => x.Item1.IsSubsetOf(x.Item2) || x.Item1.IsSupersetOf(x.Item2))
+.Sum(x => x ? 1 : 0)
+
+#!csharp
+
+rawInput
+.Select(line => {
+    var (a, b) = lineToRangePair(line);
+    var set1 = toSet(a);
+    var set2 = toSet(b);
+    return set1.IsSubsetOf(set2) || set1.IsSupersetOf(set2); })
+.Sum(oneIsSubset => oneIsSubset ? 1 : 0)
