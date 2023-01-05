@@ -9,7 +9,7 @@ let priority c =
 let result chunkSize elements =
     let prioPerChunk =
         Set.intersectMany
-        >> Set.maxElement // there is always just one element
+        >> Seq.exactlyOne
         >> priority
 
     elements

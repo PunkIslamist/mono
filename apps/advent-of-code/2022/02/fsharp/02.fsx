@@ -18,8 +18,10 @@ type Scorable =
     | Result of Result
     
 
-let points x =
-    match x with
+let shapes = Ring [Rock; Paper; Scissors]
+    
+
+let points = function
     | Shape Rock -> 1
     | Shape Paper -> 2
     | Shape Scissors -> 3
@@ -29,7 +31,6 @@ let points x =
     
 
 let result (theirs, ours) =
-    let shapes = Ring [Rock; Paper; Scissors]
     match ours with
     | _ when ours = theirs -> Draw
     | _ when ours = Ring.next shapes theirs -> Win
@@ -63,8 +64,7 @@ let rawInput = System.IO.File.ReadLines("./apps/advent-of-code/2022/02/input.txt
 
 
 // Part 1
-let toShape x =
-    match x with
+let toShape = function
     | 'A' | 'X' -> Rock
     | 'B' | 'Y' -> Paper
     | 'C' | 'Z' -> Scissors
@@ -79,15 +79,13 @@ let solution1 = // 10310
 
 
 // Part 2
-let toResult x =
-    match x with
+let toResult = function
     | 'X' -> Loss
     | 'Y' -> Draw
     | 'Z' -> Win
     
 
 let requiredMove (theirs, goal) =
-    let shapes = Ring [Rock; Paper; Scissors]
     match goal with
     | Win -> Ring.next shapes theirs
     | Loss -> Ring.previous shapes theirs
