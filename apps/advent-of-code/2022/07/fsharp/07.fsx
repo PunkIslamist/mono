@@ -1,75 +1,87 @@
-type FsItem =
-    | Dir of name : string * children : FsItem list
-    | File of name : string * size : int
-    
+let exampleStructure = Map [
+    ([| "/" |],
+        (5, [
+            [| "/"; "a" |]
+            [| "/"; "b" |]]))
+    ([| "/"; "a" |],
+        (13, []))
+    ([| "/"; "b" |],
+        (19, []))]
 
-let rec size = function
-    | Dir (_, items) -> Seq.sum <| Seq.map size items
-    | File (_, size) -> size
-    
-
-let addChild child (Dir (name, children)) =
-    Dir (name, child :: children)
-    
-    
-let rec allItems fsItem =
-    match fsItem with
-    | File (_, _) -> [fsItem]
-    | Dir (_, children) -> fsItem :: (List.collect allItems children)
-    
 
 let parse terminalOutput =
-    let rec loop dir (terminalOutput' : string list) =
+    let addChild child dir =
+        match dir with
+        | Some (size, children) ->
+            Some <| (size, child :: children)
+        | None -> None
+            
+    let addSize size dir =
+        match dir with
+        | Some (current, children) ->
+            Some <| (current + size, children)
+        | None -> None
+
+    let rec loop fs (terminalOutput' : string list) (cwd : string array) =
         match terminalOutput' with
-        | [] -> (dir, [])
+        | [] -> fs
         | line :: lines ->
             match line.Split(' ') with
-            | [| "$"; "cd"; ".." |] -> (dir, lines)
-            | [| "$"; "ls" |]
-            | [| "dir"; _ |] -> loop dir lines
-            | [| size; name |] ->
-                loop (addChild (File (name, int size)) dir) lines
-            | [| "$"; "cd"; name' |] -> 
-                let (childDir, lines'') = loop (Dir (name', List.empty)) lines
-                loop (addChild childDir dir) lines''
+            | [| "$"; "ls" |] ->
+                cwd |> loop fs lines
+
+            | [| "dir"; dir |] ->
+                let childPath = Array.append cwd [| dir |]
+                let fs' = fs |> Map.change cwd (addChild childPath)
+                cwd |> loop fs' lines
+
+            | [| size; _ |] ->
+                let fs' = fs |> Map.change cwd (addSize <| int size)
+                cwd |> loop fs' lines
+
+            | [| "$"; "cd"; ".." |] ->
+                cwd[..^1] |> loop fs lines
+
+            | [| "$"; "cd"; dir |] ->
+                let childPath = Array.append cwd [| dir |]
+                let fs' = fs |> Map.add childPath (0, []) 
+                childPath |> loop fs' lines
+
+    loop Map.empty terminalOutput [||]
+
+
+let rec size fs dir =
+    let (ownSize, children) = Map.find dir fs
+
+    children
+    |> List.sumBy (size fs)
+    |> (+) ownSize
+
+
+let part1 fs =
+    (0, fs) ||> Map.fold (
+        fun state path _ ->
+            let s = size fs path
+
+            if s > 100_000
+            then state
+            else state + s)
             
-    terminalOutput
-    |> List.ofSeq
-    |> List.skip 1
-    |> loop (Dir ("/", List.empty))
-    |> fst
-    
 
-let part1 =
-    allItems
-    >> List.choose (
-        fun x ->
-            match x with
-            | File (_,_) -> None
-            | Dir (_,_) -> 
-                let s = size x
-                if s > 100000
-                    then None
-                    else Some s)
-    >> List.sum
-
-
-let part2 rootDir =
-    let unused = 70_000_000 - (size rootDir)
+let part2 fs =
+    let total = 70_000_000
+    let unused = total - (size fs [| "/" |])
     let required = 30_000_000 - unused
 
-    rootDir
-    |> allItems
-    |> List.choose (
-        fun x ->
-            match x with
-            | File (_,_) -> None
-            | Dir (_,_) -> 
-                let s = size x
-                if s > required
-                    then Some s
-                    else None)
-    |> List.min
+    (total, fs)
+    ||> Map.fold (
+        fun state path _ ->
+            let dirSize = size fs path
+
+            match dirSize with
+            | x when x < required -> state
+            | x when x > state -> state
+            | _ -> dirSize)
 
 
 let example = "$ cd /
@@ -97,7 +109,9 @@ $ ls
 7214296 k"
 
 
-let rawInput = System.IO.File.ReadLines($"{__SOURCE_DIRECTORY__}/../input.txt")
+let rawInput =
+    System.IO.File.ReadLines($"{__SOURCE_DIRECTORY__}/../input.txt")
+    |> List.ofSeq
 
 
 parse rawInput |> part1 // 1642503
