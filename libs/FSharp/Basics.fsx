@@ -15,16 +15,18 @@ module Functions =
 
 
 module Collections =
-    let takeUntil pred source =
-        let rec loop state matches =
-            match Seq.tryHead matches with
-            | None -> state
-            | Some i ->
-                if pred i
-                then (i :: state)
-                else loop (i :: state) (Seq.tail matches)
-            
-        loop [] source |> Seq.rev
+    let rec takeUntil pred source =
+        if Seq.isEmpty source
+        then Seq.empty
+        else
+            seq {
+                let head = Seq.head source
+
+                if pred head
+                then yield head
+                else
+                    yield head
+                    yield! takeUntil pred (Seq.tail source) }
 
 
 module String =
