@@ -22,8 +22,8 @@ let follow tail head =
     | (2, _)
     | (_, 2) ->
         (diffX, diffY)
-        |> fun (x, y) -> ((+) (1 * sign x), (+) (1 * sign y))
-        |> fun f -> change tail f
+        |> fun (x, y) -> ((+) (sign x), (+) (sign y))
+        |> fun changes -> change tail changes
     | _ -> tail
 
 
