@@ -1,3 +1,6 @@
+#load "../../../../../libs/FSharp/Basics.fsx"
+open Basics.String
+
 let exampleStructure = Map [
     ([| "/" |],
         (5, [
@@ -26,7 +29,7 @@ let parse terminalOutput =
         match terminalOutput' with
         | [] -> fs
         | line :: lines ->
-            match line.Split(' ') with
+            match split ' ' line with
             | [| "$"; "ls" |] ->
                 cwd |> loop fs lines
 

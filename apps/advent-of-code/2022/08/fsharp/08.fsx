@@ -1,3 +1,8 @@
+#load "../../../../../libs/FSharp/Basics.fsx"
+open Basics.Collections
+open Basics.Functions
+open Basics.Numbers
+
 let countVisible startIdx idxChange trees =
     ((-1, startIdx trees, []), trees)
     ||> Seq.fold (
@@ -6,15 +11,6 @@ let countVisible startIdx idxChange trees =
             then (hight, idxChange index, index :: visibleTrees)
             else (highest, idxChange index, visibleTrees))
     |> fun (_, _, visibleTrees) -> visibleTrees
-
-
-let always x = fun _ -> x
-
-
-let dec x = x - 1
-
-
-let inc x = x + 1
 
 
 let forwards (treeLine : int seq) =
@@ -80,18 +76,6 @@ rawInput |> grid |> part1 // 1779
 
 
 // Part 2
-
-let takeUntil pred source =
-    let rec loop state matches =
-        match Seq.tryHead matches with
-        | None -> state
-        | Some i ->
-            if pred i
-            then (i :: state)
-            else loop (i :: state) (Seq.tail matches)
-        
-    loop [] source |> Seq.rev
-    
 
 let takeSurroundingUntil cond source =
     let rec loop state previous rest =

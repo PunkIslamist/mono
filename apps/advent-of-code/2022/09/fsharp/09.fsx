@@ -1,8 +1,6 @@
-let inc i = i + 1
-
-
-let dec i = i - 1
-
+#load "../../../../../libs/FSharp/Basics.fsx"
+open Basics.Numbers
+open Basics.String
 
 let change (x, y) (``x-change``, ``y-change``) =
     (``x-change`` x, ``y-change`` y)
@@ -36,7 +34,7 @@ let posVisited headPositions =
     
 
 let parse (motion : string) =
-    match motion.Split(' ') with
+    match split ' ' motion with
     | [| "R"; n |] -> (inc, id) |> List.replicate (int n)
     | [| "L"; n |] -> (dec, id) |> List.replicate (int n)
     | [| "D"; n |] -> (id, dec) |> List.replicate (int n)
