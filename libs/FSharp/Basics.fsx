@@ -12,6 +12,11 @@ module Functions =
     
 
     let tupleMap f (x, y) = (f x, f y)
+    
+
+    let tap f x =
+        f x
+        x
 
 
 module Collections =
