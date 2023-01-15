@@ -16,7 +16,7 @@ let diff (x, y) (x', y') =
 
 
 let follow tail head =
-    let (diffX, diffY) = diff tail head 
+    let (diffX, diffY) = diff head tail
     
     match (abs diffX, abs diffY) with
     | (2, _)
