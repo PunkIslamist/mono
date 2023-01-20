@@ -1,0 +1,208 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":null,"items":[{"name":"csharp","languageName":"C#","aliases":["c#","cs"]},{"name":"fsharp","languageName":"F#","aliases":["f#","fs"]},{"name":"pwsh","languageName":"PowerShell","aliases":["powershell"]},{"name":"javascript","languageName":"JavaScript","aliases":["js"]},{"name":"html","languageName":"HTML"},{"name":"sql","languageName":"SQL"},{"name":"kql","languageName":"KQL"},{"name":"mermaid","languageName":"Mermaid"},{"name":"httpRequest","languageName":"http"},{"name":"value"}]}}
+
+#!fsharp
+
+#load "../../../../../libs/FSharp/Basics.fsx"
+open Basics.String
+open Basics.Functions
+
+//let registerValues start ops =
+//    ([start], ops)
+//    ||> Seq.fold (
+//        fun value op ->
+//            let current :: _ = value
+//
+//            match split ' ' op with
+//            | [| "addx"; count |] -> (current + (int count)) :: current :: value
+//            | _ -> current :: value)
+//    |> Seq.rev
+
+let registerValues start ops =
+    ([start], ops)
+    ||> Seq.fold (
+        fun value op ->
+            let (_, current) :: _ = value
+
+            match split ' ' op with
+            | [| "addx"; count |] ->
+                let first = (op, current)
+                let second = ("''", current + (int count))
+                second :: first :: value
+            | _ -> (op, current) :: value)
+    |> Seq.rev
+
+let signalStrengths idxs registerValues =
+    registerValues
+    |> Seq.indexed
+    |> Seq.filter (fun (i, _) -> Seq.contains i idxs)
+    |> Seq.map (fun (i, value) -> i * value)
+    
+
+let example = [
+    "noop"
+    "addx 3"
+    "addx -5"]
+    
+
+let largeExample = [
+    "addx 15"
+    "addx -11"
+    "addx 6"
+    "addx -3"
+    "addx 5"
+    "addx -1"
+    "addx -8"
+    "addx 13"
+    "addx 4"
+    "noop"
+    "addx -1"
+    "addx 5"
+    "addx -1"
+    "addx 5"
+    "addx -1"
+    "addx 5"
+    "addx -1"
+    "addx 5"
+    "addx -1"
+    "addx -35"
+    "addx 1"
+    "addx 24"
+    "addx -19"
+    "addx 1"
+    "addx 16"
+    "addx -11"
+    "noop"
+    "noop"
+    "addx 21"
+    "addx -15"
+    "noop"
+    "noop"
+    "addx -3"
+    "addx 9"
+    "addx 1"
+    "addx -3"
+    "addx 8"
+    "addx 1"
+    "addx 5"
+    "noop"
+    "noop"
+    "noop"
+    "noop"
+    "noop"
+    "addx -36"
+    "noop"
+    "addx 1"
+    "addx 7"
+    "noop"
+    "noop"
+    "noop"
+    "addx 2"
+    "addx 6"
+    "noop"
+    "noop"
+    "noop"
+    "noop"
+    "noop"
+    "addx 1"
+    "noop"
+    "noop"
+    "addx 7"
+    "addx 1"
+    "noop"
+    "addx -13"
+    "addx 13"
+    "addx 7"
+    "noop"
+    "addx 1"
+    "addx -33"
+    "noop"
+    "noop"
+    "noop"
+    "addx 2"
+    "noop"
+    "noop"
+    "noop"
+    "addx 8"
+    "noop"
+    "addx -1"
+    "addx 2"
+    "addx 1"
+    "noop"
+    "addx 17"
+    "addx -9"
+    "addx 1"
+    "addx 1"
+    "addx -3"
+    "addx 11"
+    "noop"
+    "noop"
+    "addx 1"
+    "noop"
+    "addx 1"
+    "noop"
+    "noop"
+    "addx -13"
+    "addx -19"
+    "addx 1"
+    "addx 3"
+    "addx 26"
+    "addx -30"
+    "addx 12"
+    "addx -1"
+    "addx 3"
+    "addx 1"
+    "noop"
+    "noop"
+    "noop"
+    "addx -9"
+    "addx 18"
+    "addx 1"
+    "addx 2"
+    "noop"
+    "noop"
+    "addx 9"
+    "noop"
+    "noop"
+    "noop"
+    "addx -1"
+    "addx 2"
+    "addx -37"
+    "addx 1"
+    "addx 3"
+    "noop"
+    "addx 15"
+    "addx -21"
+    "addx 22"
+    "addx -6"
+    "addx 1"
+    "noop"
+    "addx 2"
+    "addx 1"
+    "noop"
+    "addx -10"
+    "noop"
+    "noop"
+    "addx 20"
+    "addx 1"
+    "addx 2"
+    "addx 2"
+    "addx -6"
+    "addx -11"
+    "noop"
+    "noop"
+    "noop"]
+    
+    
+    
+let rawInput =
+    System.IO.File.ReadLines($"{__SOURCE_DIRECTORY__}/../input.txt")
+    
+
+// 109 -> #179
+// 133 -> #220
+// ToDo: value at idx 220 is off by one - it should be the previous value
+largeExample
+|> registerValues ("start", 1)
+|> Seq.skip 10
