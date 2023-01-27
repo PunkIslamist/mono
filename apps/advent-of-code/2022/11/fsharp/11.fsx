@@ -1,3 +1,6 @@
+#load "../../../../../libs/FSharp/Basics.fsx"
+open Basics.Numbers
+
 let example = [
     "Monkey 0:"
     "  Starting items: 79, 98"
@@ -62,7 +65,7 @@ let m2 = {
     Test = fun x -> if x % 13 = 0 then 1 else 3 }
 let m3 = {
     Items = [74]
-    Operation = (+) 13
+    Operation = (+) 3
     Test = fun x -> if x % 17 = 0 then 0 else 1 }
     
 
@@ -72,29 +75,40 @@ let worryLevel monkee item =
     |> fun x -> x / 3
     
 
-let targetIdx monkee item =
-    item
-    |> worryLevel monkee
-    |> monkee.Test
-
-    
 let throws monkee =
-    monkee.Items
-    |> List.groupBy (targetIdx monkee)
+    (Map [], monkee.Items)
+    ||> List.fold (
+        fun targets item ->
+            let worryLevel = worryLevel monkee item
+            let target = monkee.Test worryLevel
+
+            targets |> Map.change target (
+                function
+                | Some x -> Some <| worryLevel :: x
+                | None -> Some [worryLevel]))
+    |> Map.map (fun _ item -> List.rev item)
+
             
 let turn idx monkees =
     let monkee = monkees |> Array.item idx
     let throws = throws monkee
 
     (monkees, throws)
-    ||> List.fold (
-        fun state (idx, items) ->
+    ||> Map.fold (
+        fun state idx items ->
             let monkee = state[idx]
             let monkee' = { monkee with Items = monkee.Items @ items}
             state |> Array.updateAt idx monkee')
     |> Array.updateAt idx { monkee with Items = [] }
 
 
-(0, [| m0; m1; m2; m3 |])
-||> turn
+let round monkees =
+    ((0, monkees), monkees)
+    ||> Array.fold (
+        fun (idx, monkees) _ ->
+            (inc idx, turn idx monkees))
+    |> snd
 
+
+[| m0; m1; m2; m3 |]
+|> round
