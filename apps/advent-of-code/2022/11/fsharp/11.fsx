@@ -1,5 +1,6 @@
 #load "../../../../../libs/FSharp/Basics.fsx"
 open Basics.Numbers
+open Basics.Collections
 
 let example = [
     "Monkey 0:"
@@ -118,5 +119,8 @@ let round monkees =
     |> fun (_, monkees, throws) -> monkees, throws
 
 
-[| m0; m1; m2; m3 |]
-|> round
+(([| m0; m1; m2; m3 |], Map []), [1..20])
+||> List.fold (
+    fun (monkees, throws) _ ->
+        let monkees', throws' = round monkees
+        (monkees', mergeWith (+) throws throws'))
