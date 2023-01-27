@@ -92,22 +92,30 @@ let throws monkee =
 let turn idx monkees =
     let monkee = monkees |> Array.item idx
     let throws = throws monkee
+    let monkees' =
+        (monkees, throws)
+        ||> Map.fold (
+            fun state idx items ->
+                let monkee = state[idx]
+                let monkee' = { monkee with Items = monkee.Items @ items}
+                state |> Array.updateAt idx monkee')
+        |> Array.updateAt idx { monkee with Items = [] }
 
-    (monkees, throws)
-    ||> Map.fold (
-        fun state idx items ->
-            let monkee = state[idx]
-            let monkee' = { monkee with Items = monkee.Items @ items}
-            state |> Array.updateAt idx monkee')
-    |> Array.updateAt idx { monkee with Items = [] }
+    (List.length monkee.Items, monkees')
 
 
 let round monkees =
-    ((0, monkees), monkees)
+    ((0, monkees, Map []), monkees)
     ||> Array.fold (
-        fun (idx, monkees) _ ->
-            (inc idx, turn idx monkees))
-    |> snd
+        fun (idx, monkees, throws) _ ->
+            let count, monkees' = turn idx monkees
+            let throws' =
+                throws |> Map.change idx (
+                    function
+                    | Some x -> Some <| x + count
+                    | None -> Some count)
+            (inc idx, monkees', throws'))
+    |> fun (_, monkees, throws) -> monkees, throws
 
 
 [| m0; m1; m2; m3 |]
