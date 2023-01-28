@@ -1,6 +1,8 @@
 #load "../../../../../libs/FSharp/Basics.fsx"
+
 open Basics.Numbers
 open Basics.Collections
+open System.Text.RegularExpressions
 
 let example = [
     "Monkey 0:"
@@ -32,20 +34,6 @@ let example = [
     "    If false: throw to monkey 1"]
 
 
-"
-In each round
-    For each monkey
-        For each item
-            1. Apply operation to WL of item
-            2. Divide worry level (WL) by 3, rounded down
-            3. Apply test to WL
-            4. Note to which monkey the item would go
-            5. Remove item from current monkey
-        1. Group 'thrown' items by target monkey
-        For each target monkey/group
-            1. Append 'thrown' items to items
-"
-
 type Monkee = {
     Items : int list
     Operation : int -> int
@@ -69,6 +57,47 @@ let m3 = {
     Operation = (+) 3
     Test = fun x -> if x % 17 = 0 then 0 else 1 }
     
+
+let exampleMonkee = [
+    "Monkey 0:"
+    "  Starting items: 79, 98"
+    "  Operation: new = old * 19"
+    "  Test: divisible by 23"
+    "    If true: throw to monkey 2"
+    "    If false: throw to monkey 3"]
+    
+let [id; items; op; test; ``if true``; ``if false``] = exampleMonkee
+
+
+let itemsRE = @"Starting items:( (?<items>\d+),?)+"
+let opRE = @"Operation: new = (?<left>old|\d+) (?<op>(\+|\*)) (?<right>old|\d+)"
+
+let captures (reMatch : Match) =
+    let value (c : Capture) = c.Value
+
+    reMatch.Groups
+    |> Seq.map (
+        fun group ->
+            group.Name,
+            group.Captures |> Seq.map value)
+    |> Map
+
+Regex.Match("  Starting items: 79, 98", itemsRE)
+|> captures
+|> Map.find "items"
+
+let findAll keys map =
+    keys
+    |> Seq.map (
+        fun key ->
+        Map.find key map)
+
+
+let [left; opi; right] =
+    Regex.Match("  Operation: new = old * 19", opRE)
+    |> captures
+    |> findAll ["left"; "op"; "right"]
+    |> List.ofSeq // I hate this language
 
 let worryLevel monkee item =
     item
