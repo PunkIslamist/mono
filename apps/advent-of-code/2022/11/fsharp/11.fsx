@@ -71,33 +71,47 @@ let [id; items; op; test; ``if true``; ``if false``] = exampleMonkee
 
 let itemsRE = @"Starting items:( (?<items>\d+),?)+"
 let opRE = @"Operation: new = (?<left>old|\d+) (?<op>(\+|\*)) (?<right>old|\d+)"
+let testRE = @"Test: divisible by (?<divisor>\d+)"
+let targetRE = @"If \w+: throw to monkey (?<target>\d+)"
 
-let captures (reMatch : Match) =
-    let value (c : Capture) = c.Value
 
-    reMatch.Groups
-    |> Seq.map (
-        fun group ->
-            group.Name,
-            group.Captures |> Seq.map value)
-    |> Map
+let singleValue (groupName: string) (reMatch : Match) =
+    reMatch
+        .Groups[groupName]
+        .Value
+        
 
-Regex.Match("  Starting items: 79, 98", itemsRE)
-|> captures
-|> Map.find "items"
+let allValues (groupName: string) (reMatch : Match) =
+    reMatch
+        .Groups[groupName]
+        .Captures
+    |> Seq.map (fun x -> x.Value)
 
-let findAll keys map =
-    keys
-    |> Seq.map (
-        fun key ->
-        Map.find key map)
+
+Regex.Match(items, itemsRE)
+|> allValues "items"
 
 
 let [left; opi; right] =
-    Regex.Match("  Operation: new = old * 19", opRE)
-    |> captures
-    |> findAll ["left"; "op"; "right"]
+    ["left"; "op"; "right"]
+    |> Seq.map (
+        fun group ->
+            singleValue group <| Regex.Match(op, opRE))
     |> List.ofSeq // I hate this language
+
+
+
+Regex.Match(test, testRE)
+|> singleValue "divisor"
+|> int
+    
+
+[``if true``; ``if false``]
+|> List.map (
+    fun x ->
+        Regex.Match(x, targetRE)
+        |> singleValue "target"
+        |> int)
 
 let worryLevel monkee item =
     item
