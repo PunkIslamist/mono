@@ -57,24 +57,6 @@ let m3 = {
     Operation = (+) 3
     Test = fun x -> if x % 17 = 0 then 0 else 1 }
     
-
-let exampleMonkee = [
-    "Monkey 0:"
-    "  Starting items: 79, 98"
-    "  Operation: new = old * 19"
-    "  Test: divisible by 23"
-    "    If true: throw to monkey 2"
-    "    If false: throw to monkey 3"]
-    
-let [id; items; op; test; ``if true``; ``if false``] = exampleMonkee
-
-
-let itemsRE = @"Starting items:( (?<items>\d+),?)+"
-let opRE = @"Operation: new = (?<left>old|\d+) (?<op>(\+|\*)) (?<right>old|\d+)"
-let testRE = @"Test: divisible by (?<divisor>\d+)"
-let targetRE = @"If \w+: throw to monkey (?<target>\d+)"
-
-
 let singleValue (groupName: string) (reMatch : Match) =
     reMatch
         .Groups[groupName]
@@ -88,30 +70,65 @@ let allValues (groupName: string) (reMatch : Match) =
     |> Seq.map (fun x -> x.Value)
 
 
-Regex.Match(items, itemsRE)
-|> allValues "items"
+let exampleMonkee = [
+    "Monkey 0:"
+    "  Starting items: 79, 98"
+    "  Operation: new = old * 19"
+    "  Test: divisible by 23"
+    "    If true: throw to monkey 2"
+    "    If false: throw to monkey 3"]
+    
+let parseMonkee (lines : string list) =
+    let itemsPattern = @"Starting items:( (?<items>\d+),?)+"
+    let operationPattern = @"Operation: new = (?<left>old|\d+) (?<op>(\+|\*)) (?<right>old|\d+)"
+    let testPattern = @"Test: divisible by (?<divisor>\d+)"
+    let targetPattern = @"If \w+: throw to monkey (?<target>\d+)"
 
+    let [_; items; operation; test; ``if true``; ``if false``] = lines
 
-let [left; opi; right] =
-    ["left"; "op"; "right"]
-    |> Seq.map (
-        fun group ->
-            singleValue group <| Regex.Match(op, opRE))
-    |> List.ofSeq // I hate this language
+    let items =
+        Regex.Match(items, itemsPattern)
+        |> allValues "items"
+        |> Seq.map int
 
+    let divisor =
+        Regex.Match(test, testPattern)
+        |> singleValue "divisor"
+        |> int
+        
+    let [``target if true``; ``target if false``] =
+        [``if true``; ``if false``]
+        |> List.map (
+            fun x ->
+                Regex.Match(x, targetPattern)
+                |> singleValue "target"
+                |> int)
+    
+    let operation =
+        ["op"; "right"]
+        |> Seq.map (
+            fun group ->
+                singleValue group <| Regex.Match(operation, operationPattern))
+        |> List.ofSeq
+        |> function
+            | ["*"; "old"] -> fun x -> x * x
+            | ["+"; "old"] -> fun x -> x + x
+            | ["*"; n] -> fun x -> x * (int n)
+            | ["+"; n] -> fun x -> x + (int n)
 
-
-Regex.Match(test, testRE)
-|> singleValue "divisor"
-|> int
+    {
+        Items = items |> Seq.toList
+        Operation = operation
+        Test = fun x ->
+            if x % divisor = 0
+            then ``target if true``
+            else ``target if false``
+    }
     
 
-[``if true``; ``if false``]
-|> List.map (
-    fun x ->
-        Regex.Match(x, targetRE)
-        |> singleValue "target"
-        |> int)
+let exMon = exampleMonkee |> parseMonkee
+exMon.Operation 1
+
 
 let worryLevel monkee item =
     item
