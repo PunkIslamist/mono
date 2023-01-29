@@ -5,34 +5,34 @@ open Basics.Collections
 open System.Text.RegularExpressions
 
 let example = [
+    [
     "Monkey 0:"
     "  Starting items: 79, 98"
     "  Operation: new = old * 19"
     "  Test: divisible by 23"
     "    If true: throw to monkey 2"
-    "    If false: throw to monkey 3"
-    ""
+    "    If false: throw to monkey 3"]
+    [
     "Monkey 1:"
     "  Starting items: 54, 65, 75, 74"
     "  Operation: new = old + 6"
     "  Test: divisible by 19"
     "    If true: throw to monkey 2"
-    "    If false: throw to monkey 0"
-    ""
+    "    If false: throw to monkey 0"]
+    [
     "Monkey 2:"
     "  Starting items: 79, 60, 97"
     "  Operation: new = old * old"
     "  Test: divisible by 13"
     "    If true: throw to monkey 1"
-    "    If false: throw to monkey 3"
-    ""
+    "    If false: throw to monkey 3"]
+    [
     "Monkey 3:"
     "  Starting items: 74"
     "  Operation: new = old + 3"
     "  Test: divisible by 17"
     "    If true: throw to monkey 0"
-    "    If false: throw to monkey 1"]
-
+    "    If false: throw to monkey 1"]]
 
 type Monkee = {
     Items : int list
@@ -126,10 +126,6 @@ let parseMonkee (lines : string list) =
     }
     
 
-let exMon = exampleMonkee |> parseMonkee
-exMon.Operation 1
-
-
 let worryLevel monkee item =
     item
     |> monkee.Operation
@@ -179,7 +175,8 @@ let round monkees =
     |> fun (_, monkees, throws) -> monkees, throws
 
 
-(([| m0; m1; m2; m3 |], Map []), [1..20])
+
+(((example |> List.map parseMonkee |> Array.ofList), Map []), [1..20])
 ||> List.fold (
     fun (monkees, throws) _ ->
         let monkees', throws' = round monkees
