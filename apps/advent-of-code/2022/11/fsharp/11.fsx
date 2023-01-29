@@ -3,12 +3,17 @@
 open Basics.Numbers
 open Basics.Collections
 open System.Text.RegularExpressions
-open Basics.String
+
+type Test = {
+    Divisor: int
+    ``If divisable``: int
+    ``Not divisable``: int }
+
 
 type Monkee = {
     Items : int list
-    Operation : int -> int
-    Test: int -> int }
+    Operation : string * string
+    Test: Test }
     
 
 let singleValue (groupName: string) (reMatch : Match) =
@@ -42,7 +47,7 @@ let parseMonkee lines =
         |> singleValue "divisor"
         |> int
         
-    let [``target if true``; ``target if false``] =
+    let [``If divisable``; ``Not divisable``] =
         [``if true``; ``if false``]
         |> List.map (
             fun x ->
@@ -50,40 +55,47 @@ let parseMonkee lines =
                 |> singleValue "target"
                 |> int)
     
-    let operation =
+    let [op; right] =
         ["op"; "right"]
-        |> Seq.map (
+        |> List.map (
             fun group ->
                 singleValue group <| Regex.Match(operation, operationPattern))
-        |> List.ofSeq
-        |> function
-            | ["*"; "old"] -> fun x -> x * x
-            | ["+"; "old"] -> fun x -> x + x
-            | ["*"; n] -> fun x -> x * (int n)
-            | ["+"; n] -> fun x -> x + (int n)
 
     {
         Items = items |> Seq.toList
-        Operation = operation
-        Test = fun x ->
-            if x % divisor = 0
-            then ``target if true``
-            else ``target if false``
-    }
+        Operation = (op, right)
+        Test = {
+            Divisor = divisor
+            ``If divisable`` = ``If divisable``
+            ``Not divisable`` = ``Not divisable`` }}
     
 
 let worryLevel monkee item =
-    item
-    |> monkee.Operation
+    match monkee.Operation with
+    | ("*", "old") -> item * item
+    | ("+", "old") -> item + item
+    | ("*", n) -> item * (int n)
+    | ("+", n) -> item + (int n)
     |> fun x -> x / 3
     
+let target monkee worryLevel =
+    let test = monkee.Test
+
+    match worryLevel % test.Divisor with
+    | 0 -> test.``If divisable``
+    | _ -> test.``Not divisable``
+
 
 let throws monkee =
+    printfn "Monkey: %A" monkee
+
     (Map [], monkee.Items)
     ||> List.fold (
         fun targets item ->
             let worryLevel = worryLevel monkee item
-            let target = monkee.Test worryLevel
+            let target = target monkee worryLevel
+
+            printfn "Item: %d -> WL: %d -> Target: %d" item worryLevel target
 
             targets |> Map.change target (
                 function
@@ -152,24 +164,6 @@ let example = [|
     "    If false: throw to monkey 1"|]|]
 
 
-let m0 = {
-    Items = [79; 98]
-    Operation = (*) 19
-    Test = fun x -> if x % 23 = 0 then 2 else 3 }
-let m1 = {
-    Items = [54; 64; 75; 74]
-    Operation = (+) 6
-    Test = fun x -> if x % 19 = 0 then 2 else 0 }
-let m2 = {
-    Items = [79; 60; 97]
-    Operation = fun x -> x * x
-    Test = fun x -> if x % 13 = 0 then 1 else 3 }
-let m3 = {
-    Items = [74]
-    Operation = (+) 3
-    Test = fun x -> if x % 17 = 0 then 0 else 1 }
-    
-
 let rawInput =
     System.IO.File.ReadAllLines($"{__SOURCE_DIRECTORY__}/../input.txt")
     
@@ -179,6 +173,7 @@ let part1 monkees =
         ((monkees, Map []), [1..20])
         ||> List.fold (
             fun (monkees, throws) _ ->
+                printfn "####### Round start #######"
                 let monkees', throws' = round monkees
                 (monkees', mergeWith (+) throws throws'))
 
