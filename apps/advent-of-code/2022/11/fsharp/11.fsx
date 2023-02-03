@@ -5,13 +5,13 @@ open Basics.Collections
 open System.Text.RegularExpressions
 
 type Test = {
-    Divisor: int
+    Divisor: int64
     ``If divisable``: int
     ``Not divisable``: int }
 
 
 type Monkee = {
-    Items : int list
+    Items : int64 list
     Operation : string * string
     Test: Test }
     
@@ -40,7 +40,7 @@ let parseMonkee lines =
     let items =
         Regex.Match(items, itemsPattern)
         |> allValues "items"
-        |> Seq.map int
+        |> Seq.map int64
 
     let divisor =
         Regex.Match(test, testPattern)
@@ -74,15 +74,15 @@ let worryLevel monkee item =
     match monkee.Operation with
     | ("*", "old") -> item * item
     | ("+", "old") -> item + item
-    | ("*", n) -> item * (int n)
-    | ("+", n) -> item + (int n)
-    |> fun x -> x / 3
+    | ("*", n) -> item * (int64 n)
+    | ("+", n) -> item + (int64 n)
+    |> fun x -> x / 3L
     
 let target monkee worryLevel =
     let test = monkee.Test
 
     match worryLevel % test.Divisor with
-    | 0 -> test.``If divisable``
+    | 0L -> test.``If divisable``
     | _ -> test.``Not divisable``
 
 
